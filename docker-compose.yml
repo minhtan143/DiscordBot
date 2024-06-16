@@ -1,0 +1,10 @@
+version: '3.8'
+name: discord-bot
+
+services:
+  bot:
+    build: .
+    image: discord-bot
+    container_name: nat-bot
+    env_file:
+      - .env

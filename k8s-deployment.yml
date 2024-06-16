@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot
+  labels:
+    app: discord-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord-bot
+  template:
+    metadata:
+      labels:
+        app: discord-bot
+    spec:
+      containers:
+      - name: discord-bot
+        image: localhost:32000/discord-bot:latest
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: discord-bot-secret
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: discord-bot
+  name: discord-service
+spec:
+  type: ClusterIP
+  ports:
+    - name: port-service
+      port: 80
+      protocol: TCP
+  selector:
+    app: discord-bot
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: discord-bot-secret
+type: Opaque
+stringData:
+  TOKEN: token_secret

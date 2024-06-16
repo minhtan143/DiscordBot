@@ -1,6 +1,5 @@
-import discord
+import os, discord, subprocess
 from discord.ext import commands
-import subprocess
 from typing import Literal
 
 
@@ -47,7 +46,7 @@ async def on_ready():
 
 # Run the bot with the token
 bot.run(
-    token=""
+    token=os.environ['TOKEN']
 )
 
 # https://discord.com/api/oauth2/authorize?client_id=1191783216542121994&permissions=8&scope=bot%20applications.commands
